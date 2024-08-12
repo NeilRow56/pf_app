@@ -57,7 +57,7 @@ export default function BankAccountsForm() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4" onSubmit={() => {}}>
+          <form className="space-y-4">
             <FormField
               name="accountNumber"
               control={form.control}
@@ -90,7 +90,11 @@ export default function BankAccountsForm() {
           </form>
         </Form>
         <DialogFooter>
-          <Button type="button" onClick={form.handleSubmit(onSubmit)}>
+          <Button
+            type="button"
+            disabled={!form.formState.isValid}
+            onClick={form.handleSubmit(onSubmit)}
+          >
             {/* {<Loader2 className="mr-2 h-4 w-4 animate-spin" />} */}
             Confirm
           </Button>
