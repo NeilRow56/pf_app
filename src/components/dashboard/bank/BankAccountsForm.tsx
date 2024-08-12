@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -30,6 +30,8 @@ import CurrencyInput from "@/components/CurrencyInput";
 import { Label } from "@/components/ui/label";
 
 export default function BankAccountsForm() {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof BankSchema>>({
     resolver: zodResolver(BankSchema),
     defaultValues: {
@@ -42,10 +44,11 @@ export default function BankAccountsForm() {
     values: z.infer<typeof BankSchema>
   ) => {
     console.log(values);
+    setIsDialogOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={(open) => setIsDialogOpen(open)}>
       <DialogTrigger asChild>
         <Button size="sm">Add</Button>
       </DialogTrigger>
