@@ -22,11 +22,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Loader2 } from "lucide-react";
 import { BankSchema } from "@/schemas/bank";
 import { z } from "zod";
 import CurrencyInput from "@/components/CurrencyInput";
+import { Label } from "@/components/ui/label";
 
 export default function BankAccountsForm() {
   const form = useForm<z.infer<typeof BankSchema>>({
@@ -37,6 +38,12 @@ export default function BankAccountsForm() {
     mode: "onChange",
   });
 
+  const onSubmit: SubmitHandler<z.infer<typeof BankSchema>> = (
+    values: z.infer<typeof BankSchema>
+  ) => {
+    console.log(values);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -46,8 +53,7 @@ export default function BankAccountsForm() {
         <DialogHeader>
           <DialogTitle>Create new bank account</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This will create a new account in the database.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -57,7 +63,7 @@ export default function BankAccountsForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account Number</FormLabel>
+                  <Label>Account Number</Label>
                   <FormControl>
                     <Input placeholder="13719713158835300" {...field} />
                   </FormControl>
@@ -70,7 +76,7 @@ export default function BankAccountsForm() {
               control={form.control}
               render={({ field: { value, onChange } }) => (
                 <FormItem>
-                  <FormLabel>Balance</FormLabel>
+                  <Label>Balance</Label>
                   <FormControl>
                     <CurrencyInput
                       value={value}
@@ -84,7 +90,7 @@ export default function BankAccountsForm() {
           </form>
         </Form>
         <DialogFooter>
-          <Button type="button" onClick={() => {}}>
+          <Button type="button" onClick={form.handleSubmit(onSubmit)}>
             {/* {<Loader2 className="mr-2 h-4 w-4 animate-spin" />} */}
             Confirm
           </Button>
