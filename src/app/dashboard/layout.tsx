@@ -3,9 +3,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CircleUser, MenuIcon } from "lucide-react";
@@ -15,6 +17,7 @@ import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { ThemeToggle } from "@/components/dashboard/ThemeToggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function DashboardLayout({
   children,
@@ -54,14 +57,31 @@ export default async function DashboardLayout({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="w-5 h-5" />
+                <Avatar>
+                  <AvatarImage src={user.picture || ""} />
+                  <AvatarFallback>{user.given_name?.charAt(0)}</AvatarFallback>
+                </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuItem asChild>
-                <LogoutLink>{user.email}</LogoutLink>
-              </DropdownMenuItem>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {user.given_name}
+                  </p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user.email}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  Settings
+                  <DropdownMenuShortcut>TODO</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <LogoutLink>Logout</LogoutLink>
