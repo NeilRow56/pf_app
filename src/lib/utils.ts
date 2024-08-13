@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 
 export const MAX_VALUE = 9999999.99;
 
-const currencyFormatter = new Intl.NumberFormat("en-US", {
+const currencyFormatter = new Intl.NumberFormat("en-GB", {
   style: "currency",
-  currency: "USD",
+  currency: "GBP",
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });

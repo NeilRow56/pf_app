@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -39,6 +39,10 @@ export default function BankAccountsForm() {
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    form.reset();
+  }, [isDialogOpen]);
 
   const onSubmit: SubmitHandler<z.infer<typeof BankSchema>> = (
     values: z.infer<typeof BankSchema>
